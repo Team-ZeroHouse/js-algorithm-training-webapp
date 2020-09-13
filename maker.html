@@ -10,6 +10,12 @@
 </head>
 <body>
   <h1>Problem Maker</h1>
+
+  <h1>Problem Input</h1>
+  <div><textarea id="problem-input" style="width: 100%; height: 100px;"></textarea></div>
+  <div><button id="problem-load-button" type="button">Load</button></div>
+
+  <hr />
   
   <div>
     <div>
@@ -35,7 +41,7 @@
   <hr />
 
   <h1>Problem Output</h2>
-  <textarea id="problem-output" readonly style="width: 100%; height: 300px;"></textarea>
+  <div><textarea id="problem-output" readonly style="width: 100%; height: 100px;"></textarea></div>
 
   <script src="jquery-3.5.1.min.js"></script>
   <script src="https://uicdn.toast.com/editor/latest/toastui-jquery-editor.min.js"></script>
@@ -61,13 +67,13 @@
         )
       });
 
-      $('#test-case-add-button').click(function()
+      function addTextCase(input, output)
       {
         const $ol = $('#test-case-list');
         const $li = $(`
         <li>
-          <textarea class="input" style="width: 400px; height: 100px;"></textarea>
-          <textarea class="output" style="width: 400px; height: 100px;"></textarea>
+          <textarea class="input" style="width: 400px; height: 100px;">${input??''}</textarea>
+          <textarea class="output" style="width: 400px; height: 100px;">${output??''}</textarea>
         </li>
         `);
         const $removeButton = $('<button type="button">remove</button>');
@@ -77,6 +83,11 @@
         });
         $li.append($removeButton);
         $ol.append($li);
+      }
+
+      $('#test-case-add-button').click(function()
+      {
+        addTextCase();
       });
 
       $('#run-button').click(function()
@@ -147,6 +158,20 @@
 
         $('#solution-result').val(solutionResult);
       });
+
+      $('#problem-load-button').click(function()
+      {
+        const json = $('#problem-input').val();
+        const problem = JSON.parse(json);
+        
+        $('input[name=title]').val(problem.title??'');
+        $('#content-editor').toastuiEditor('setMarkdown', problem.content??'');
+        problem.testCases.forEach(testCase =>
+        {
+          addTextCase(testCase.input, testCase.output);
+        });
+        editor.setValue(problem.solution??'');
+      })
 
       $('#problem-make-button').click(function()
       {

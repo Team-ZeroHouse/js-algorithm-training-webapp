@@ -42,27 +42,24 @@
       $('#output').text('');
       const content = editor.getValue();
       const json = JSON.stringify($('#input').val().split(/\r?\n/));
-      const code = `
-        (function()
+      const codeFunction = new Function(`
+        const readline = (function()
         {
-          const readline = (function()
-          {
-            const inputLines = JSON.parse('${json}');
-            let currentIndex = -1;
-            return () => {
-              if (++currentIndex < inputLines.length)
-              {
-                return inputLines[currentIndex];
-              }
+          const inputLines = JSON.parse('${json}');
+          let currentIndex = -1;
+          return () => {
+            if (++currentIndex < inputLines.length)
+            {
+              return inputLines[currentIndex];
+            }
 
-              return '';
-            };
-          })();
-          const print = printToOutput;
-          ${content}
+            return '';
+          };
         })();
-      `;
-      eval(code);
+        const print = printToOutput;
+        ${content}
+      `);
+      codeFunction();
     });
   </script>
 </body>

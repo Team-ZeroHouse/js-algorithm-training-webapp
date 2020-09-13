@@ -67,7 +67,7 @@
         )
       });
 
-      function addTextCase(input, output)
+      function addTestCase(input, output)
       {
         const $ol = $('#test-case-list');
         const $li = $(`
@@ -87,7 +87,7 @@
 
       $('#test-case-add-button').click(function()
       {
-        addTextCase();
+        addTestCase();
       });
 
       $('#run-button').click(function()
@@ -168,7 +168,7 @@
         $('#content-editor').toastuiEditor('setMarkdown', problem.content??'');
         problem.testCases.forEach(testCase =>
         {
-          addTextCase(testCase.input, testCase.output);
+          addTestCase(testCase.input, testCase.output);
         });
         editor.setValue(problem.solution??'');
       })

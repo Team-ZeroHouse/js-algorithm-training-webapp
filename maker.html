@@ -23,11 +23,14 @@
     </div>
     <div id="content-editor"></div>
 
-    <h2>Test Cases <button id="test-case-add-button" type="button">Add</button></h2>
+    <h2>Open Test Cases <button id="test-case-add-button" type="button">Add</button></h2>
     <ol id="test-case-list"></ol>
 
+    <h2>Random Test Cases</h2>
+    <div id="random-test-case-editor" style="width: 600px; height: 400px; border: 1px solid black;"></div>
+
     <h2>Solution</h2>
-    <div id="editor" style="width: 600px; height: 400px; border: 1px solid black;"></div>
+    <div id="solution-editor" style="width: 600px; height: 400px; border: 1px solid black;"></div>
     <div><button id="run-button" type="button">Run</button></div>
 
     <h3>Solution Result</h3>
@@ -55,16 +58,23 @@
         previewStyle: 'vertical'
       });
 
-      let editor;
+      let solutionEditor;
+      let randomTestCaseEditor;
       require.config({ paths: { vs: 'vs' } });
       require(['vs/editor/editor.main'], function()
       {
-        editor = monaco.editor.create(
-          document.getElementById('editor'),
+        solutionEditor = monaco.editor.create(
+          document.getElementById('solution-editor'),
           {
             language: 'javascript'
           }
-        )
+        );
+        randomTestCaseEditor = monaco.editor.create(
+          document.getElementById('random-test-case-editor'),
+          {
+            language: 'javascript'
+          }
+        );
       });
 
       function addTestCase(input, output)
@@ -99,13 +109,12 @@
         }
 
         const testCases = $('#test-case-list li').map((i,li) => ({ input: $(li).find('.input').val().trimEnd(), output: $(li).find('.output').val().trimEnd() })).toArray();
-        const code = editor.getValue();
+        const randomTestCaseCode = randomTestCaseEditor.getValue().trim();
+        const code = solutionEditor.getValue();
         let solutionResult = '';
 
-        for (let i = 0; i < testCases.length; i++)
+        function runTestCase(type, testCase, testCaseNumber)
         {
-          const testCase = testCases[i];
-          const testCaseNumber = i + 1;
           let output = '';
           
           const inputs = testCase.input.split(/\r+\n/);
@@ -129,7 +138,7 @@
             .replace(/(?<!\.)readline/, 'arguments[0]')
             .replace(/(?<!\.)print/, 'arguments[1]');
           const codeFunction = new Function(editedCode);
-          solutionResult += `--- TestCase #${testCaseNumber} ---\n`;
+          solutionResult += `--- ${type} #${testCaseNumber} ---\n`;
           try
           {
             codeFunction.apply(null, [readline, print]);
@@ -138,7 +147,7 @@
           {
             solutionResult += 'Failed.\n';
             solutionResult += e.toString();
-            break;
+            return false;
           }
 
           output = output.trimEnd();
@@ -152,7 +161,59 @@
             solutionResult += testCase.output;
             solutionResult += '\nBut Your answer is...\n';
             solutionResult += output ? output : "'#empty'";
+            solutionResult += '\nThe input is...\n';
+            solutionResult += testCase.input;
+
+            return false;
+          }
+
+          return true;
+        }
+
+        let openTestCaseSuccess = true;
+        for (let i = 0; i < testCases.length; i++)
+        {
+          const testCase = testCases[i];
+          const result = runTestCase('Open Test Case', testCase, i+1);
+          if (!result)
+          {
+            openTestCaseSuccess = false;
             break;
+          }
+        }
+
+        if (openTestCaseSuccess && randomTestCaseCode.length > 0)
+        {
+          const editedrandomTestCaseCode = randomTestCaseCode
+            .replace(/(?<!\.)printInput/, 'arguments[0]')
+            .replace(/(?<!\.)printOutput/, 'arguments[1]');
+          const randomTestCaseMakerFunction = new Function(editedrandomTestCaseCode);
+
+          for (let i = 1; i <= 100; i++)
+          {
+            const inputLines = [];
+            function printInput(line)
+            {
+              inputLines.push(line);
+            }
+
+            const outputLines = [];
+            function printOutput(line)
+            {
+              outputLines.push(line);
+            }
+
+            randomTestCaseMakerFunction.apply(null, [printInput, printOutput]);
+            const testCase = {
+              input: inputLines.join('\n'),
+              output: outputLines.join('\n')
+            };
+            
+            const result = runTestCase('Random Test Case', testCase, i);
+            if (!result)
+            {
+              break;
+            }
           }
         }
 
@@ -170,7 +231,8 @@
         {
           addTestCase(testCase.input, testCase.output);
         });
-        editor.setValue(problem.solution??'');
+        solutionEditor.setValue(problem.solution??'');
+        randomTestCaseEditor.setValue(problem.randomTestCase??'');
       })
 
       $('#problem-make-button').click(function()
@@ -179,7 +241,8 @@
           title: $('input[name=title]').val(),
           content: $('#content-editor').toastuiEditor('getMarkdown'),
           testCases: $('#test-case-list li').map((i,li) => ({ input: $(li).find('.input').val().trimEnd(), output: $(li).find('.output').val().trimEnd() })).toArray(),
-          solution: editor.getValue()
+          randomTestCase: randomTestCaseEditor.getValue(),
+          solution: solutionEditor.getValue()
         };
         $('#problem-output').val(JSON.stringify(problem));
       })

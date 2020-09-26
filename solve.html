@@ -34,94 +34,103 @@
   <script src="vs/loader.js"></script>
   
   <script>
-    let theProblem;
-    let editor;
-
-    function test(testCase)
+    window.loadedProblem = undefined;
+    (function()
     {
-      let solutionResult = '';
-      let output = '';
-      
-      const inputs = testCase.input.split(/\r+\n/);
-      let currentInputIndex = -1;
-      function readline()
+      let theProblem;
+      let editor;
+
+      window.addEventListener('beforeunload', function(e)
       {
-        if (++currentInputIndex < inputs.length)
+        e.preventDefault();
+        e.returnValue = '';
+      });
+
+      window.loadedProblem = function(problem)
+      {
+        theProblem = problem;
+
+        $('#title').val(problem.title??'');
+        $('#content-viewer').toastuiEditor('setMarkdown', problem.content??'');
+        problem.testCases.forEach(testCase =>
         {
-          return inputs[currentInputIndex];
+          addTextCase(testCase);
+        });
+      };
+
+      function addTextCase(testCase)
+      {
+        const $li = $(`
+        <li>
+          <textarea class="input" readonly style="width: 300px; height: 100px;">${testCase.input}</textarea>
+          <textarea class="output" readonly style="width: 300px; height: 100px;">${testCase.output}</textarea>
+          <button type="button">Run</button>
+          <textarea class="result" readonly style="width: 300px; height: 100px;"></textarea>
+        </li>
+        `);
+        $li.find('button').click(function()
+        {
+          const result = test(testCase);
+          $li.find('.result').val(result);
+        });
+        $('#test-case-list').append($li);
+      }
+
+      function test(testCase)
+      {
+        let solutionResult = '';
+        let output = '';
+        
+        const inputs = testCase.input.split(/\r+\n/);
+        let currentInputIndex = -1;
+        function readline()
+        {
+          if (++currentInputIndex < inputs.length)
+          {
+            return inputs[currentInputIndex];
+          }
+
+          return '';
         }
 
-        return '';
-      }
+        function print(msg)
+        {
+          output += msg.toString() + '\n';
+        }
+        
+        const editedCode = editor.getValue()
+          .replace(/(?<!\.)readline/, 'arguments[0]')
+          .replace(/(?<!\.)print/, 'arguments[1]');
+        const codeFunction = new Function(editedCode);
+        try
+        {
+          codeFunction.apply(null, [readline, print]);
+        }
+        catch(e)
+        {
+          solutionResult += 'Failed.\n';
+          solutionResult += e.toString();
+          return solutionResult;
+        }
 
-      function print(msg)
-      {
-        output += msg.toString() + '\n';
-      }
-      
-      const editedCode = editor.getValue()
-        .replace(/(?<!\.)readline/, 'arguments[0]')
-        .replace(/(?<!\.)print/, 'arguments[1]');
-      const codeFunction = new Function(editedCode);
-      try
-      {
-        codeFunction.apply(null, [readline, print]);
-      }
-      catch(e)
-      {
-        solutionResult += 'Failed.\n';
-        solutionResult += e.toString();
+        output = output.trimEnd();
+        if (output == testCase.output)
+        {
+          solutionResult += 'Success.\n\n';
+        }
+        else
+        {
+          solutionResult += 'We expected...\n';
+          solutionResult += testCase.output;
+          solutionResult += '\nBut Your answer is...\n';
+          solutionResult += output ? output : "'#empty'";
+        }
+
         return solutionResult;
       }
 
-      output = output.trimEnd();
-      if (output == testCase.output)
-      {
-        solutionResult += 'Success.\n\n';
-      }
-      else
-      {
-        solutionResult += 'We expected...\n';
-        solutionResult += testCase.output;
-        solutionResult += '\nBut Your answer is...\n';
-        solutionResult += output ? output : "'#empty'";
-      }
+      // 아래 부터 초기화 코드
 
-      return solutionResult;
-    }
-    
-    function addTextCase(testCase)
-    {
-      const $li = $(`
-      <li>
-        <textarea class="input" readonly style="width: 300px; height: 100px;">${testCase.input}</textarea>
-        <textarea class="output" readonly style="width: 300px; height: 100px;">${testCase.output}</textarea>
-        <button type="button">Run</button>
-        <textarea class="result" readonly style="width: 300px; height: 100px;"></textarea>
-      </li>
-      `);
-      $li.find('button').click(function()
-      {
-        const result = test(testCase);
-        $li.find('.result').val(result);
-      });
-      $('#test-case-list').append($li);
-    }
-
-    function loadedProblem(problem)
-    {
-      theProblem = problem;
-
-      $('#title').val(problem.title??'');
-      $('#content-viewer').toastuiEditor('setMarkdown', problem.content??'');
-      problem.testCases.forEach(testCase =>
-      {
-        addTextCase(testCase);
-      });
-    }
-
-    $(function()
-    {
       const keyValues = location.href.substring(location.href.indexOf('?')+1).split('&').map(function(p) {
         const keyValue = p.split('=');
         return {
@@ -178,13 +187,8 @@
 
         // TODO: 문제 출제 시 랜덤 test case 만드는 함수 추가해서 100개 정도 돌리게 할 것
       });
-
-      window.addEventListener('beforeunload', function(e)
-      {
-        e.preventDefault();
-        e.returnValue = '';
-      });
-    });
+      
+    })();
   </script>
 </body>
 </html>

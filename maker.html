@@ -23,8 +23,8 @@
     </div>
     <div id="content-editor"></div>
 
-    <h2>Open Test Cases <button id="test-case-add-button" type="button">Add</button></h2>
-    <ol id="test-case-list"></ol>
+    <h2>Open Test Cases <button id="open-test-case-add-button" type="button">Add</button></h2>
+    <ol id="open-test-case-list"></ol>
 
     <h2>Random Test Cases</h2>
     <div id="random-test-case-editor" style="width: 600px; height: 400px; border: 1px solid black;"></div>
@@ -77,9 +77,9 @@
         );
       });
 
-      function addTestCase(input, output)
+      function addOpenTestCase(input, output)
       {
-        const $ol = $('#test-case-list');
+        const $ol = $('#open-test-case-list');
         const $li = $(`
         <li>
           <textarea class="input" style="width: 400px; height: 100px;">${input??''}</textarea>
@@ -95,20 +95,20 @@
         $ol.append($li);
       }
 
-      $('#test-case-add-button').click(function()
+      $('#open-test-case-add-button').click(function()
       {
-        addTestCase();
+        addOpenTestCase();
       });
 
       $('#run-button').click(function()
       {
-        if ($('#test-case-list li').length === 0)
+        if ($('#open-test-case-list li').length === 0)
         {
           alert('no test cases');
           return;
         }
 
-        const testCases = $('#test-case-list li').map((i,li) => ({ input: $(li).find('.input').val().trimEnd(), output: $(li).find('.output').val().trimEnd() })).toArray();
+        const openTestCases = $('#open-test-case-list li').map((i,li) => ({ input: $(li).find('.input').val().trimEnd(), output: $(li).find('.output').val().trimEnd() })).toArray();
         const randomTestCaseCode = randomTestCaseEditor.getValue().trim();
         const code = solutionEditor.getValue();
         let solutionResult = '';
@@ -171,9 +171,9 @@
         }
 
         let openTestCaseSuccess = true;
-        for (let i = 0; i < testCases.length; i++)
+        for (let i = 0; i < openTestCases.length; i++)
         {
-          const testCase = testCases[i];
+          const testCase = openTestCases[i];
           const result = runTestCase('Open Test Case', testCase, i+1);
           if (!result)
           {
@@ -227,9 +227,9 @@
         
         $('input[name=title]').val(problem.title??'');
         $('#content-editor').toastuiEditor('setMarkdown', problem.content??'');
-        problem.testCases.forEach(testCase =>
+        problem.openTestCases.forEach(testCase =>
         {
-          addTestCase(testCase.input, testCase.output);
+          addOpenTestCase(testCase.input, testCase.output);
         });
         solutionEditor.setValue(problem.solution??'');
         randomTestCaseEditor.setValue(problem.randomTestCase??'');
@@ -240,7 +240,7 @@
         const problem = {
           title: $('input[name=title]').val(),
           content: $('#content-editor').toastuiEditor('getMarkdown'),
-          testCases: $('#test-case-list li').map((i,li) => ({ input: $(li).find('.input').val().trimEnd(), output: $(li).find('.output').val().trimEnd() })).toArray(),
+          openTestCases: $('#open-test-case-list li').map((i,li) => ({ input: $(li).find('.input').val().trimEnd(), output: $(li).find('.output').val().trimEnd() })).toArray(),
           randomTestCase: randomTestCaseEditor.getValue(),
           solution: solutionEditor.getValue()
         };

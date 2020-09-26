@@ -227,6 +227,7 @@
         
         $('input[name=title]').val(problem.title??'');
         $('#content-editor').toastuiEditor('setMarkdown', problem.content??'');
+        $('#open-test-case-list').html('');
         problem.openTestCases.forEach(testCase =>
         {
           addOpenTestCase(testCase.input, testCase.output);

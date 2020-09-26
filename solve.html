@@ -20,7 +20,7 @@
   <div id="editor" style="width: 600px; height: 400px; border: 1px solid black;"></div>
 
   <h3>테스트 케이스 <button id="run-all-button" type="button">테스트 모두 돌리기</button></h3>
-  <ol id="test-case-list"></ol>
+  <ol id="open-test-case-list"></ol>
 
   <div>
     <button id="solve-button" type="button">최종 채점</button>
@@ -37,12 +37,12 @@
     let theProblem;
     let editor;
 
-    function test(testCase)
+    function test(openTestCase)
     {
       let solutionResult = '';
       let output = '';
       
-      const inputs = testCase.input.split(/\r+\n/);
+      const inputs = openTestCase.input.split(/\r+\n/);
       let currentInputIndex = -1;
       function readline()
       {
@@ -75,14 +75,14 @@
       }
 
       output = output.trimEnd();
-      if (output == testCase.output)
+      if (output == openTestCase.output)
       {
         solutionResult += 'Success.\n\n';
       }
       else
       {
         solutionResult += 'We expected...\n';
-        solutionResult += testCase.output;
+        solutionResult += openTestCase.output;
         solutionResult += '\nBut Your answer is...\n';
         solutionResult += output ? output : "'#empty'";
       }
@@ -90,22 +90,22 @@
       return solutionResult;
     }
     
-    function addTextCase(testCase)
+    function addTextCase(openTestCase)
     {
       const $li = $(`
       <li>
-        <textarea class="input" readonly style="width: 300px; height: 100px;">${testCase.input}</textarea>
-        <textarea class="output" readonly style="width: 300px; height: 100px;">${testCase.output}</textarea>
+        <textarea class="input" readonly style="width: 300px; height: 100px;">${openTestCase.input}</textarea>
+        <textarea class="output" readonly style="width: 300px; height: 100px;">${openTestCase.output}</textarea>
         <button type="button">Run</button>
         <textarea class="result" readonly style="width: 300px; height: 100px;"></textarea>
       </li>
       `);
       $li.find('button').click(function()
       {
-        const result = test(testCase);
+        const result = test(openTestCase);
         $li.find('.result').val(result);
       });
-      $('#test-case-list').append($li);
+      $('#open-test-case-list').append($li);
     }
 
     function loadedProblem(problem)
@@ -114,9 +114,9 @@
 
       $('#title').val(problem.title??'');
       $('#content-viewer').toastuiEditor('setMarkdown', problem.content??'');
-      problem.testCases.forEach(testCase =>
+      problem.openTestCases.forEach(openTestCase =>
       {
-        addTextCase(testCase);
+        addTextCase(openTestCase);
       });
     }
 
@@ -161,13 +161,13 @@
 
       $('#run-all-button').click(function()
       {
-        $('#test-case-list button').click();
+        $('#open-test-case-list button').click();
       });
 
       $('#solve-button').click(function()
       {
         $('#run-all-button').click();
-        const failCount = $('#test-case-list .result').filter((i,x) => x.value.trim() !== 'Success.').length;
+        const failCount = $('#open-test-case-list .result').filter((i,x) => x.value.trim() !== 'Success.').length;
         if (failCount > 0)
         {
           $('#output').val('테스트 케이스 통과 실패');

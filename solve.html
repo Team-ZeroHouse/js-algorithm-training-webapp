@@ -99,8 +99,8 @@
         }
         
         const editedCode = editor.getValue()
-          .replace(/(?<!\.)readline/, 'arguments[0]')
-          .replace(/(?<!\.)print/, 'arguments[1]');
+          .replace(/(?<!\.)readline/g, 'arguments[0]')
+          .replace(/(?<!\.)print/g, 'arguments[1]');
         const codeFunction = new Function(editedCode);
         try
         {

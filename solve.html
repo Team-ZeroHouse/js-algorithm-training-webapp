@@ -51,7 +51,7 @@
       {
         theProblem = problem;
 
-        $('#title').val(problem.title??'');
+        $('#title').text('제목: ' + problem.title??'');
         $('#content-viewer').toastuiEditor('setMarkdown', problem.content??'');
         problem.openTestCases.forEach(openTestCase =>
         {

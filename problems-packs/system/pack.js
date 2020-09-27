@@ -12,6 +12,10 @@
           {
             id: 'what_is_algorithm_training',
             name: '알고리즘 훈련이란'
+          },
+          {
+            id: 'one_line_input_multiple_values',
+            name: '한줄로 여러 값 입력받기'
           }
         ]
       }

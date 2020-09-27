@@ -19,7 +19,7 @@
   </p>
   <div id="editor" style="width: 600px; height: 400px; border: 1px solid black;"></div>
 
-  <h3>테스트 케이스 <button id="run-all-button" type="button">테스트 모두 돌리기</button></h3>
+  <h3>오픈 테스트 케이스 <button id="run-all-button" type="button">테스트 모두 돌리기</button></h3>
   <ol id="open-test-case-list"></ol>
 
   <div>
@@ -39,6 +39,7 @@
     {
       let theProblem;
       let editor;
+      const randomTestCases = [];
 
       window.addEventListener('beforeunload', function(e)
       {
@@ -56,6 +57,36 @@
         {
           addTextCase(openTestCase);
         });
+        
+        if (problem.randomTestCase && problem.randomTestCase.trim().length > 0)
+        {
+          for (let i = 0; i < 100; i++)
+          {
+            const inputLines = [];
+            const outputLines = [];
+            
+            function printInput(line)
+            {
+              inputLines.push(line);
+            }
+
+            function printOutput(line)
+            {
+              outputLines.push(line);
+            }
+
+            const code = problem.randomTestCase
+              .replace(/(?<!\.)printInput/g, 'arguments[0]')
+              .replace(/(?<!\.)printOutput/g, 'arguments[1]');
+            const randomTestCaseMakerFunction = new Function(code);
+            randomTestCaseMakerFunction.apply(null, [printInput, printOutput]);
+
+            randomTestCases.push({
+              input: inputLines.join('\n'),
+              output: outputLines.join('\n')
+            });
+          }
+        }
       };
 
       function addTextCase(openTestCase)
@@ -76,12 +107,12 @@
         $('#open-test-case-list').append($li);
       }
 
-      function test(openTestCase)
+      function test(testCase)
       {
         let solutionResult = '';
         let output = '';
         
-        const inputs = openTestCase.input.split(/\r+\n/);
+        const inputs = testCase.input.split(/\r+\n/);
         let currentInputIndex = -1;
         function readline()
         {
@@ -114,16 +145,18 @@
         }
 
         output = output.trimEnd();
-        if (output == openTestCase.output)
+        if (output == testCase.output)
         {
           solutionResult += 'Success.\n\n';
         }
         else
         {
           solutionResult += 'We expected...\n';
-          solutionResult += openTestCase.output;
+          solutionResult += testCase.output;
           solutionResult += '\nBut Your answer is...\n';
           solutionResult += output ? output : "'#empty'";
+          solutionResult += '\nThe input is...\n';
+          solutionResult += testCase.input;
         }
 
         return solutionResult;
@@ -179,13 +212,31 @@
         const failCount = $('#open-test-case-list .result').filter((i,x) => x.value.trim() !== 'Success.').length;
         if (failCount > 0)
         {
-          $('#output').val('테스트 케이스 통과 실패');
+          $('#output').val('오픈 테스트 케이스 통과 실패');
           return;
         }
-        
-        $('#output').val('테스트 케이스 통과');
 
-        // TODO: 문제 출제 시 랜덤 test case 만드는 함수 추가해서 100개 정도 돌리게 할 것
+        let output = '오픈 테스트 케이스 통과.\n\n';
+
+        let randomTestCasePass = true;
+        for (const testCase of randomTestCases)
+        {
+          const result = test(testCase);
+          if (result.trim() !== 'Success.')
+          {
+            output += result;
+            output += '\n\n랜덤 테스트 케이스 불통과\n\n불합격!';
+            randomTestCasePass = false;
+            break;
+          }
+        }
+
+        if (randomTestCasePass)
+        {
+          output += '랜덤 테스트 케이스 통과.\n\n합격!';
+        }
+
+        $('#output').val(output);
       });
       
     })();

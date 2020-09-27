@@ -12,10 +12,6 @@
           {
             id: 'a_plus_b',
             name: 'A + B'
-          },
-          {
-            id: 'a_minus_b',
-            name: 'A - B'
           }
         ]
       }

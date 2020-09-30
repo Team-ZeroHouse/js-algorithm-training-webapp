@@ -34,6 +34,10 @@
             name: '마지막 수'
           },
           {
+            id: 'digit_10',
+            name: '십의 자리'
+          },
+          {
             id: 'decimal',
             name: '소수부'
           },

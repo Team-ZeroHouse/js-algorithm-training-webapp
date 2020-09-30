@@ -44,6 +44,10 @@
           {
             id: 'mean',
             name: '수의 평균 구하기'
+          },
+          {
+            id: 'total_price',
+            name: '총 가격'
           }
         ]
       }

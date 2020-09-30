@@ -16,6 +16,10 @@
           {
             id: 'rect_area',
             name: '직사각형 넓이 구하기'
+          },
+          {
+            id: 'apple_distribution',
+            name: '사과 나누기'
           }
         ]
       }

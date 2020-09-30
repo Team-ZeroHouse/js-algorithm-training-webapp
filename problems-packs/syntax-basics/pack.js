@@ -32,6 +32,10 @@
           {
             id: 'decimal',
             name: '소수부'
+          },
+          {
+            id: 'mean',
+            name: '수의 평균 구하기'
           }
         ]
       }

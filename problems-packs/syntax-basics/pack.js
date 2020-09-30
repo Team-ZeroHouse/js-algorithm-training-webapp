@@ -20,6 +20,14 @@
           {
             id: 'apple_distribution',
             name: '사과 나누기'
+          },
+          {
+            id: 'c_to_f',
+            name: '섭시 온도를 화시로 바꾸기'
+          },
+          {
+            id: 'seconds_formating',
+            name: '초를 시간 형식에 맞추기'
           }
         ]
       }

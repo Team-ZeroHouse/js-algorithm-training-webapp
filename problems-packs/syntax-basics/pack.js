@@ -48,6 +48,10 @@
           {
             id: 'total_price',
             name: '총 가격'
+          },
+          {
+            id: 'money_count',
+            name: '지폐의 수'
           }
         ]
       }

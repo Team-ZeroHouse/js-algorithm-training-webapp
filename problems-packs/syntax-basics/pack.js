@@ -12,6 +12,10 @@
           {
             id: 'a_plus_b',
             name: 'A + B'
+          },
+          {
+            id: 'rect_area',
+            name: '직사각형 넓이 구하기'
           }
         ]
       }

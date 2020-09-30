@@ -28,6 +28,10 @@
           {
             id: 'seconds_formating',
             name: '초를 시간 형식에 맞추기'
+          },
+          {
+            id: 'decimal',
+            name: '소수부'
           }
         ]
       }

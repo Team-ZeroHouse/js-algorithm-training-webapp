@@ -30,6 +30,10 @@
             name: '초를 시간 형식에 맞추기'
           },
           {
+            id: 'last_number',
+            name: '마지막 수'
+          },
+          {
             id: 'decimal',
             name: '소수부'
           },

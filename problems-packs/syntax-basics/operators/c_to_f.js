@@ -1,0 +1,5 @@
+(function()
+{
+  const problem = {"title":"섭시 온도를 화시로 바꾸기","content":"섭시 온도와 화시온도는 현실세계에서는 같은 온도를 나타내나 서로 값이 다르다.\n섭시 온도를 C라고 하고 화시온도를 F로 하겠다.\nC와 F의 관계는 **F = C * 9 / 5 + 32** 이다.\n\n## 입력\n실수의 C 섭시온도가 한줄에 입력된다.\n\n## 출력\n섭시를 화시로 변환해서 소수 첫째 자리에서 반올림하여 \n\n### 힌트\n- 문자열을 실수로 변환하기 위해서는 parseFloat를 사용해야 한다.\n- 반올림을 하기 위해서는 Math.round를 사용해야 한다.\nMath.round(3.1)을 하면 3이 나오고 Math.round(3.6)을 하면 4가 나온다.","openTestCases":[{"input":"3.14","output":"38"},{"input":"-10.45","output":"13"},{"input":"21","output":"70"}],"randomTestCase":"const c = Math.round((Math.random() * 200 - 100) * 100) / 100;\r\nconst f = c * 9 / 5 + 32;\r\nprintInput(c);\r\nprintOutput(Math.round(f));","solution":"const c = parseFloat(readline());\r\nconst f = c * 9 / 5 + 32;\r\nprint(Math.round(f));"}
+  loadedProblem(problem);
+})();

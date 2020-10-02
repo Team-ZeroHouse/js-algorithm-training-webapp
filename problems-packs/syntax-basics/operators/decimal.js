@@ -1,0 +1,5 @@
+(function()
+{
+  const problem = {"title":"소수부","content":"실수의 소수부를 출력하는 문제이다.\n\n### 입력\n임의의 실수 하나를 입력한다.\n\n### 출력\n실수부만 점을 제외하고 소수점 6째 자리까지 출력한다.\n\n### 힌트\njs는 특정 소수점 자리까지 출력하는 기능이 없다.\n하지만 가능하다!","openTestCases":[{"input":"3.1415926535","output":"141592"}],"randomTestCase":"const integer = Math.floor(Math.random() * 100000);\r\nconst decimal = (function() {\r\n    const nums = [];\r\n    for (let i = 0; i < 10; i++)\r\n    {\r\n        let num = Math.floor(Math.random() * 10);\r\n        if (num == 0)\r\n        {\r\n            i--;\r\n            continue;\r\n        }\r\n        nums.push(num);\r\n    }\r\n    return nums.join('');\r\n})();\r\nprintInput(`${integer}.${decimal}`);\r\nprintOutput(decimal.split('').slice(0, 6).join(''));","solution":"const float = parseFloat(readline());\r\nconst integer = Math.floor(float);\r\nconst decimal = float - integer;\r\nconst degit6 = Math.floor(decimal * 1000000);\r\nprint(degit6)"}
+  loadedProblem(problem);
+})();

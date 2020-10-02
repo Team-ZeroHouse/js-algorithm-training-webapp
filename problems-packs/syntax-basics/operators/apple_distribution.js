@@ -1,0 +1,5 @@
+(function()
+{
+  const problem = {"title":"사과 나누기","content":"사과 n개와 사람 m명이 있다.\nn개의 사과를 m명의 사람에게 공평하게 나눠줘야 한다.\n공평하게 몇개의 사과를 나눌 수 있으며 몇개의 사과가 남는가?\n\n### 입력\n첫번째 줄: **사과 수 정수 n**\n두번째 줄: **사람 수 정수 m** (m < n)\n\n### 출력\n첫번째 줄: **한 사람당 받은 사과 수**\n두번째 줄: **남은 사과의 수**\n\n### 힌트\njavascript에서 나누기의 몫을 정수로 만드는 방법은 Math.floor를 사용해야 한다.\nMath.floor(3.14)는 3을 반환한다.","openTestCases":[{"input":"5\n3","output":"1\n2"},{"input":"34\n2","output":"17\n0"},{"input":"2453\n32","output":"76\n21"}],"randomTestCase":"const n = Math.floor(Math.random() * 10000) + 1;\r\nconst m = Math.floor(Math.random() * 1000) + 1;\r\nprintInput(n);\r\nprintInput(m);\r\nprintOutput(Math.floor(n / m));\r\nprintOutput(n % m);","solution":"const n = parseInt(readline());\r\nconst m = parseInt(readline());\r\nprint(Math.floor(n / m));\r\nprint(n % m);"}
+  loadedProblem(problem);
+})();

@@ -96,7 +96,8 @@ interface Problem
 {
   title: string // 문제의 제목
   content: string // 문제를 설명하는 markdown
-  testCases: TestCase[] // 문제의 테스트 케이스 목록
+  openTestCases: TestCase[] // 문제의 오플 테스트 케이스 목록
+  randomTestCase: string // 랜덤 테스트 케이스를 만드는 코드
   solution: string // 제공되는 문제의 정답
 }
 
@@ -106,6 +107,15 @@ interface TestCase
   output: string // 테스트 케이스의 정답
 }
 ```
+
+Problem 객체의 randomTestCase을 통해서 openTestCases에 일일히 테스트 케이스를 만들어 넣을 필요 없이 랜덤한 테스트를 만들 수 있다. 이를 위해서 아래와 같은 두개의 함수를 제공한다.
+
+``` typescript
+printInput(line: string): void
+printOutput(line: string): void
+```
+
+printInput은 테스트 케이스의 입력부에 한줄을 추가하고 printOutput은 테스트 케이스의 출력부에 한줄을 추가한다.
 
 ## 사용한 라이브러리
 

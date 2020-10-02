@@ -193,6 +193,14 @@
       require.config({ paths: { vs: 'vs' } });
       require(['vs/editor/editor.main'], function()
       {
+        const libSource = [
+          'declear function readline(): string',
+          'declear function print(line: string): void'
+        ].join('\n');
+        const libUri = 'ts:filename/stdio.d.ts';
+        monaco.languages.typescript.javascriptDefaults.addExtraLib(libSource, libUri);
+        monaco.editor.createModel(libSource, 'javascript', monaco.Uri.parse(libUri));
+        
         editor = monaco.editor.create(
           document.getElementById('editor'),
           {

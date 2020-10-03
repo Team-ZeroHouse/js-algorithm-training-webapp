@@ -1,0 +1,52 @@
+.grid.container
+{
+  display: grid;
+  grid-template-columns: [left] 500px [right] auto;
+  grid-template-rows: [top] 50px [middle] auto [bottom] 250px;
+  
+
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.item
+{
+  overflow: hidden;
+}
+
+.item.problem-top
+{
+  grid-column: left;
+  grid-row: top;
+}
+
+.item.editor-top
+{
+  grid-column: right;
+  grid-row: top;
+}
+
+.item.problem
+{
+  grid-column: left;
+  grid-row: middle;
+}
+
+.item.editor
+{
+  grid-column: right;
+  grid-row: middle;
+}
+
+.item.test-case
+{
+  grid-column: left;
+  grid-row: bottom;
+}
+
+.item.console
+{
+  grid-column: right;
+  grid-row: bottom;
+}

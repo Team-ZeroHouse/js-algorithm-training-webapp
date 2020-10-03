@@ -11,23 +11,23 @@
   <link rel="stylesheet" href="toast/toastui-editor.min.css" />
 </head>
 <body>
-  <div class="container">
-    <div class="problem-top">
+  <div class="grid container">
+    <div class="item problem-top">
       <div>
         <button id="exit-button" type="button" style="display: none;">나가기</button>
       </div>
     </div>
 
-    <div class="editor-top"></div>
+    <div class="item editor-top"></div>
 
-    <div class="problem">
+    <div class="item problem">
       <h2 id="title"></h2>
 
       <h2>문제 설명</h2>
       <div id="content-viewer" style="border: 1px solid black;"></div>
     </div>
 
-    <div class="editor">
+    <div class="item editor">
       <h2>문제 작성</h2>
       <p>
         <strong>readline()</strong>으로 한줄 입력 받고<br />
@@ -36,12 +36,12 @@
       <div id="editor" style="width: 600px; height: 400px; border: 1px solid black;"></div>
     </div>
     
-    <div class="test-case">
+    <div class="item test-case">
       <h3>오픈 테스트 케이스 <button id="run-all-button" type="button">테스트 모두 돌리기</button></h3>
       <ol id="open-test-case-list"></ol>
     </div>
 
-    <div class="console">
+    <div class="item console">
       <div>
         <button id="solve-button" type="button">최종 채점</button>
         <button id="show-solution-button" type="button">모르겠어요 ㅠ 답안보여줘요.</button>

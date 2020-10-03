@@ -12,11 +12,9 @@ window.loadedProblemPack = undefined;
       document.body.appendChild(s);
 
       const $li = $(`
-        <li data-pack-id="${pack.id}">
-          <header>
-            <a href="#${pack.id}">${pack.title}</a>
-          </header>
-          <ul class="levels"></li>
+        <li class="problem-pack" data-pack-id="${pack.id}">
+          <a class="header" href="#${pack.id}">${pack.title}</a>
+          <ol class="levels"></ol>
         </li>
       `);
       $('#problems-packs').append($li);
@@ -25,7 +23,7 @@ window.loadedProblemPack = undefined;
 
   window.loadedProblemPack = function(pack)
   {
-    const $levels = $(`li[data-pack-id=${pack.id}] ul`);
+    const $levels = $(`li[data-pack-id=${pack.id}] ol`);
     for (const level of pack.levels)
     {
       const $li = $(`

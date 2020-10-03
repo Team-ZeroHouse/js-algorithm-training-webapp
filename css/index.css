@@ -7,6 +7,11 @@ h1
   color: #5C5C5C;
 }
 
+li.problem-pack
+{
+  margin-top: 10px;
+}
+
 li.problem-pack > .header
 {
   display: flex;

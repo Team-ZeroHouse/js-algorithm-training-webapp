@@ -12,7 +12,7 @@ window.loadedProblemPack = undefined;
       document.body.appendChild(s);
 
       const $li = $(`
-        <li class="problem-pack" data-pack-id="${pack.id}">
+        <li id="${pack.id}" class="problem-pack" data-pack-id="${pack.id}">
           <a class="header" href="#${pack.id}">${pack.title}</a>
           <ol class="levels"></ol>
         </li>

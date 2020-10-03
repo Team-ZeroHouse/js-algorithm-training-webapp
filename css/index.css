@@ -7,6 +7,22 @@ h1
   color: #5C5C5C;
 }
 
+li.problem-pack > .header
+{
+  display: flex;
+  padding: 15px 25px;
+  border-radius: 10px;
+
+  background-color: #5C5C5C;
+  color: #FFFFFF;
+  text-decoration: none;
+}
+
+ol.levels
+{
+  padding-left: 25px;
+}
+
 footer
 {
   margin-top: 68px;

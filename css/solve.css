@@ -42,7 +42,7 @@
   grid-row: middle;
 
   display: grid;
-  grid-template-rows: min-content max-content;
+  grid-template-rows: min-content auto;
 
   padding: 0 25px 25px 25px;
 }

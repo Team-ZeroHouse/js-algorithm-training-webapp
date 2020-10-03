@@ -17,7 +17,7 @@ window.loadedProblem = undefined;
   {
     theProblem = problem;
 
-    $('#title').text('제목: ' + problem.title??'');
+    $('#title').text(problem.title??'');
     $('#content-viewer').toastuiEditor('setMarkdown', problem.content??'');
     problem.openTestCases.forEach(openTestCase =>
     {

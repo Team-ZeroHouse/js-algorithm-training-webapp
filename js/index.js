@@ -43,7 +43,7 @@ window.loadedProblemPack = undefined;
       {
         const link = `solve.html?pack=${pack.id}&level=${level.id}&problem=${problem.id}`;
         const $li = $(`
-          <li>
+          <li class="problem">
             <a href="${link}">${problem.name}</a>
           </li>
         `);

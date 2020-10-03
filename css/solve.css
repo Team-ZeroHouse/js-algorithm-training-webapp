@@ -84,30 +84,30 @@
   grid-row: bottom;
 
   display: grid;
-  grid-template-rows: min-content auto;
+  grid-template-rows: auto min-content;
 
   padding: 25px;
 
   background-color: #EBEBEB;
 }
 
-.item.test-case .controller
+#open-test-case-list
 {
   grid-row: 1;
+
+  height: 100%;
+  overflow-y: auto;
+}
+
+.item.test-case .controller
+{
+  grid-row: 2;
 
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
 
-  margin-bottom: 10px;
-}
-
-#open-test-case-list
-{
-  grid-row: 2;
-
-  height: 100%;
-  overflow-y: auto;
+  margin-top: 10px;
 }
 
 .item.console

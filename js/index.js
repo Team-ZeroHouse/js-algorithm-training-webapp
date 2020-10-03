@@ -43,7 +43,8 @@ window.loadedProblemPack = undefined;
       {
         const link = `solve.html?pack=${pack.id}&level=${level.id}&problem=${problem.id}`;
         const $li = $(`
-          <li class="problem">
+          <li class="problem" data-problem-id="${problem.id}">
+            <input type="checkbox" />
             <a href="${link}">${problem.name}</a>
           </li>
         `);

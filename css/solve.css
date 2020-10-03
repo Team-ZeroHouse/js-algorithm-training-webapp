@@ -19,6 +19,13 @@
 {
   grid-column: left;
   grid-row: top;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  align-items: center;
+
+  padding: 0 25px;
 }
 
 .item.editor-top

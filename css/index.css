@@ -5,3 +5,12 @@ h1
 
   font-size: 2rem;
 }
+
+footer
+{
+  margin-top: 68px;
+  margin-bottom: 58px;
+
+  color: #969696;
+  line-height: 1.5;
+}

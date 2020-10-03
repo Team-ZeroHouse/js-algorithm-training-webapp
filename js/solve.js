@@ -159,6 +159,8 @@ window.loadedProblem = undefined;
     monaco.languages.typescript.javascriptDefaults.addExtraLib(libSource, libUri);
     monaco.editor.createModel(libSource, 'javascript', monaco.Uri.parse(libUri));
     
+    monaco.editor.setTheme('vs-dark');
+    
     editor = monaco.editor.create(
       document.getElementById('editor'),
       {

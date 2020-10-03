@@ -29,8 +29,8 @@ window.loadedProblemPack = undefined;
       const $li = $(`
         <li class="level" data-level-id="${level.id}">
           <header>
-            <h3>${levelIndex + 1}. ${level.title}</h3>
-            <p>${level.description}</p>
+            <h3 class="title">${levelIndex + 1}. ${level.title}</h3>
+            <p class="description">${level.description}</p>
           </header>
 
           <ol class="problems"></ol>

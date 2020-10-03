@@ -1,3 +1,9 @@
+.container
+{
+  width: 900px;
+  margin: 0 auto;
+}
+
 h1
 {
   margin-top: 98px;

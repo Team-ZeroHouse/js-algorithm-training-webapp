@@ -44,9 +44,19 @@ li.level > header .title
 
 li.problem
 {
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  align-items: center;
+
   margin-bottom: 10px;
 
   color: #5C5C5C;
+}
+
+li.problem input[type=checkbox]
+{
+  margin-right: 15px;
 }
 
 footer

@@ -7,7 +7,7 @@
       {
         id: 'operators',
         title: '기본 연산자',
-        descripiton: '기본적인 입력과 출력을 훈련합니다.',
+        description: '기본적인 입력과 출력을 훈련합니다.',
         problems: [
           {
             id: 'a_plus_b',

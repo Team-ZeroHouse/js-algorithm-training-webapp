@@ -24,12 +24,12 @@ window.loadedProblemPack = undefined;
   window.loadedProblemPack = function(pack)
   {
     const $levels = $(`li[data-pack-id=${pack.id}] ol`);
-    for (const level of pack.levels)
+    pack.levels.forEach((level, levelIndex) =>
     {
       const $li = $(`
-        <li data-level-id="${level.id}">
+        <li class="level" data-level-id="${level.id}">
           <header>
-            <h3>${level.title}</h3>
+            <h3>${levelIndex + 1}. ${level.title}</h3>
             <p>${level.description}</p>
           </header>
 
@@ -49,6 +49,6 @@ window.loadedProblemPack = undefined;
         `);
         $problems.append($li);
       }
-    }
+    });
   }
 })();

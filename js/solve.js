@@ -110,15 +110,24 @@ window.loadedProblem = undefined;
     const editedCode = editor.getValue()
       .replace(/(?<!\.)readline/g, 'arguments[0]')
       .replace(/(?<!\.)print/g, 'arguments[1]');
-    const codeFunction = new Function(editedCode);
+    
     try
     {
+      const codeFunction = new Function(editedCode);
       codeFunction.apply(null, [readline, print]);
     }
     catch(e)
     {
       testResult.success = false;
-      testResult.errorType = 'RUN_TIME_ERROR';
+      if (e instanceof SyntaxError)
+      {
+        testResult.errorType = 'SYNTAX_ERROR';
+      }
+      else
+      {
+        testResult.errorType = 'RUN_TIME_ERROR';
+      }
+      
       testResult.error = e.toString();
       return testResult;
     }
@@ -140,7 +149,13 @@ window.loadedProblem = undefined;
 
   function testCaseErrorPrint(testCase, opneTestIndex, testResult)
   {
-    if (testResult.errorType === 'RUN_TIME_ERROR')
+    if (testResult.errorType === 'SYNTAX_ERROR')
+    {
+      let output = '==== 코드 문법 에러 ====\n\n';
+      output += testResult.error;
+      $('#output').val(output);
+    }
+    else if (testResult.errorType === 'RUN_TIME_ERROR')
     {
       let output = '==== 코드 실행중 에러 발생 ====\n\n';
       output += testResult.error;
@@ -270,6 +285,7 @@ window.loadedProblem = undefined;
 
 enum  TestError
 {
+  SyntaxError = 'SYNTAX_ERROR',
   RunTimeError = 'RUN_TIME_ERROR',
   OutputMismatch = 'OUTPUT_MISMATCH'
 }

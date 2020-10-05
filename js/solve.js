@@ -204,7 +204,12 @@ window.loadedProblem = undefined;
     editor = monaco.editor.create(
       document.getElementById('editor'),
       {
-        language: 'javascript'
+        language: 'javascript',
+        value: [
+          '// readline()으로 한줄을 입력받을 수 있습니다.',
+          '// print()를 통해서 한줄을 출력할 수 있습니다.',
+          ''
+        ].join('\n')
       }
     )
   });

@@ -19,9 +19,9 @@ window.loadedProblem = undefined;
 
     $('#title').text(problem.title??'');
     $('#content-viewer').toastuiEditor('setMarkdown', problem.content??'');
-    problem.openTestCases.forEach((openTestCase, i) =>
+    problem.openTestCases.forEach((testCase, i) =>
     {
-      addTextCase(openTestCase, i);
+      addTextCase(i);
     });
     
     if (problem.randomTestCase && problem.randomTestCase.trim().length > 0)
@@ -55,22 +55,41 @@ window.loadedProblem = undefined;
     }
   };
 
-  function addTextCase(openTestCase, index)
+  function addTextCase(index)
   {
     const $li = $(`
-    <li class="test-case">
-      <span>Test Case #${index}</span>
-      <button class="run" type="button"></button>
-    </li>
+      <li class="test-case">
+        <span>Test Case #${index + 1}</span>
+        <button class="run" type="button"></button>
+      </li>
     `);
+    $li.find('button').click(function()
+    {
+      $(this).removeClass(['run', 'success', 'error']).addClass('processing')
+      const testCase = theProblem.openTestCases[index];
+      const result = test(testCase);
+      if (result.success)
+      {
+        $(this).removeClass('processing').addClass('success');
+        $('#output').val('');
+      }
+      else
+      {
+        $(this).removeClass('processing').addClass('error');
+        testCaseErrorPrint(testCase, index, result);
+      }
+    });
     $('#test-case-list').append($li);
   }
 
   function test(testCase)
   {
-    let solutionResult = '';
+    const testResult = {
+      testCase,
+      success: false
+    };
+
     let output = '';
-    
     const inputs = testCase.input.split(/\r?\n/);
     let currentInputIndex = -1;
     function readline()
@@ -98,27 +117,55 @@ window.loadedProblem = undefined;
     }
     catch(e)
     {
-      solutionResult += 'Failed.\n';
-      solutionResult += e.toString();
-      return solutionResult;
+      testResult.success = false;
+      testResult.errorType = 'RUN_TIME_ERROR';
+      testResult.error = e.toString();
+      return testResult;
     }
 
     output = output.trimEnd();
     if (output == testCase.output)
     {
-      solutionResult += 'Success.\n\n';
+      testResult.success = true;
     }
     else
     {
-      solutionResult += 'We expected...\n';
-      solutionResult += testCase.output;
-      solutionResult += '\nBut Your answer is...\n';
-      solutionResult += output ? output : "'#empty'";
-      solutionResult += '\nThe input is...\n';
-      solutionResult += testCase.input;
+      testResult.success = false;
+      testResult.errorType = 'OUTPUT_MISMATCH';
+      testResult.output = output;
     }
 
-    return solutionResult;
+    return testResult;
+  }
+
+  function testCaseErrorPrint(testCase, opneTestIndex, testResult)
+  {
+    if (testResult.errorType === 'RUN_TIME_ERROR')
+    {
+      let output = '==== 코드 실행중 에러 발생 ====\n\n';
+      output += testResult.error;
+      $('#output').val(output);
+    }
+    else if (testResult.errorType === 'OUTPUT_MISMATCH')
+    {
+      let output = '';
+      if (opneTestIndex)
+      {
+        output += `==== 오픈 테스트 케이스 #${opneTestIndex + 1}`;
+      }
+      else
+      {
+        output += '==== 랜덤 테스트 케이스';
+      }
+      output += ' 출력 불일치 ====\n';
+      output += '-- 기대한 값: --\n';
+      output += testCase.output;
+      output += '\n\n-- 출력된 값: --\n';
+      output += testResult.output;
+      output += '\n\n-- 입력: --\n';
+      output += testCase.input;
+      $('#output').val(output);
+    }
   }
 
   // 아래 부터 초기화 코드
@@ -172,52 +219,43 @@ window.loadedProblem = undefined;
 
   $('#run-all-button').click(function()
   {
-    $('#open-test-case-list button').click();
+    const $buttons = $('li.test-case button');
+    $buttons.removeClass(['processing', 'success', 'error']).addClass('run');
+    for (let i = 0; i < theProblem.openTestCases.length; i++)
+    {
+      $buttons.eq(i).click();
+      if ($buttons.eq(i).hasClass('error'))
+      {
+        break;
+      }
+    }
   });
 
   $('#solve-button').click(function()
   {
     $('#run-all-button').click();
-    const failCount = $('#open-test-case-list .result').filter((i,x) => x.value.trim() !== 'Success.').length;
-    if (failCount > 0)
+    const succcessCount = $('li.test-case button.success').lenght;
+    if (succcessCount !== theProblem.openTestCases.lenght)
     {
-      $('#output').val('오픈 테스트 케이스 통과 실패');
       return;
     }
 
-    let output = '오픈 테스트 케이스 통과.\n\n';
-    let success = true;
-
-    let randomTestCasePass = true;
     for (const testCase of randomTestCases)
     {
       const result = test(testCase);
-      if (result.trim() !== 'Success.')
+      if (!result.success)
       {
-        output += result;
-        output += '\n\n랜덤 테스트 케이스 불통과\n\n불합격!';
-        randomTestCasePass = false;
-        success = false;
-        break;
+        testCaseErrorPrint(testCase, null, result);
+        return;
       }
     }
 
-    if (randomTestCasePass)
-    {
-      output += '랜덤 테스트 케이스 통과.\n\n합격!';
-    }
-
-    if (success)
-    {
-      $('#exit-button').show();
-    }
-
-    $('#output').val(output);
+    window.removeEventListener('beforeunload', preventExit);
+    $('#output').val('합격');
   });
 
   $('#exit-button').click(function()
   {
-    window.removeEventListener('beforeunload', preventExit);
     history.back();
   });
   
@@ -228,14 +266,14 @@ window.loadedProblem = undefined;
 enum  TestError
 {
   RunTimeError = 'RUN_TIME_ERROR',
-  OutputMismatch = 'MISMATCH'
+  OutputMismatch = 'OUTPUT_MISMATCH'
 }
 
 interface TestResult
 {
   testCase: TestCase
   success: boolean
-  output: string
+  output?: string
   errorType?: TestError
   error?: string
 }

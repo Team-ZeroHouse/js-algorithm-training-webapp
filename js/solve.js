@@ -239,8 +239,8 @@ window.loadedProblem = undefined;
   $('#solve-button').click(function()
   {
     $('#run-all-button').click();
-    const succcessCount = $('li.test-case button.success').lenght;
-    if (succcessCount !== theProblem.openTestCases.lenght)
+    const succcessCount = $('li.test-case button.success').length;
+    if (succcessCount !== theProblem.openTestCases.length)
     {
       return;
     }

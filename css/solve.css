@@ -222,3 +222,26 @@ button.error::before
 
   margin-top: 10px;
 }
+
+#solve-button
+{
+  background-color: #FF9100;
+  font-weight: 700;
+}
+
+.item.test-case .controller button, .item.console .controller button
+{
+  margin-left: 10px;
+  padding: 7px 17px;
+
+  border: none;
+  border-radius: 6px;
+  background-color: #5D5D5D;
+  color: #ffffff;
+  cursor: pointer;
+}
+
+.item.test-case .controller button:first-child, .item.console .controller button:first-child
+{
+  margin-left: 0;
+}

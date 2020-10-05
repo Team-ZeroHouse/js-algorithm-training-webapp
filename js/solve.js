@@ -149,13 +149,13 @@ window.loadedProblem = undefined;
     else if (testResult.errorType === 'OUTPUT_MISMATCH')
     {
       let output = '';
-      if (opneTestIndex)
+      if (opneTestIndex === undefined || opneTestIndex === null)
       {
-        output += `==== 오픈 테스트 케이스 #${opneTestIndex + 1}`;
+        output += '==== 랜덤 테스트 케이스';
       }
       else
       {
-        output += '==== 랜덤 테스트 케이스';
+        output += `==== 오픈 테스트 케이스 #${opneTestIndex + 1}`;
       }
       output += ' 출력 불일치 ====\n';
       output += '-- 기대한 값: --\n';
@@ -239,8 +239,8 @@ window.loadedProblem = undefined;
   $('#solve-button').click(function()
   {
     $('#run-all-button').click();
-    const succcessCount = $('li.test-case button.success').lenght;
-    if (succcessCount !== theProblem.openTestCases.lenght)
+    const succcessCount = $('li.test-case button.success').length;
+    if (succcessCount !== theProblem.openTestCases.length)
     {
       return;
     }

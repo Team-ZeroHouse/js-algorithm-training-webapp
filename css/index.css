@@ -1,0 +1,75 @@
+.container
+{
+  width: 900px;
+  margin: 0 auto;
+}
+
+h1
+{
+  margin-top: 98px;
+  margin-bottom: 68px;
+
+  font-size: 2rem;
+  color: #5C5C5C;
+}
+
+li.problem-pack
+{
+  margin-top: 10px;
+}
+
+li.problem-pack > .header
+{
+  display: flex;
+  padding: 15px 25px;
+  border-radius: 10px;
+
+  background-color: #5C5C5C;
+  color: #FFFFFF;
+  text-decoration: none;
+}
+
+ol.levels
+{
+  margin-bottom: 50px;
+  padding-left: 25px;
+}
+
+li.level > header
+{
+  padding: 15px 0;
+  
+  color: #969696;
+  line-height: 1.5;
+}
+
+li.level > header .title
+{
+  font-weight: 700;
+}
+
+li.problem
+{
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  align-items: center;
+
+  margin-bottom: 10px;
+
+  color: #5C5C5C;
+}
+
+li.problem input[type=checkbox]
+{
+  margin-right: 15px;
+}
+
+footer
+{
+  margin-top: 68px;
+  margin-bottom: 58px;
+
+  color: #969696;
+  line-height: 1.5;
+}

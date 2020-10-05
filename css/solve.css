@@ -1,0 +1,259 @@
+.grid.container
+{
+  display: grid;
+  grid-template-columns: [left] 500px [right] auto;
+  grid-template-rows: [top] 70px [middle] auto [bottom] 250px;
+  
+
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.item
+{
+  overflow: hidden;
+}
+
+.item.problem-top
+{
+  grid-column: left;
+  grid-row: top;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+
+  padding: 0 25px;
+}
+
+.item.editor-top
+{
+  grid-column: right;
+  grid-row: top;
+
+  background-color: #1E1E1E;
+}
+
+.item.problem
+{
+  grid-column: left;
+  grid-row: middle;
+
+  display: grid;
+  grid-template-rows: min-content auto;
+
+  padding: 0 25px 25px 25px;
+}
+
+#title
+{
+  grid-row: 1;
+
+  margin-bottom: 10px;
+
+  font-weight: 700;
+}
+
+#content-viewer
+{
+  grid-row: 2;
+
+  height: 100%;
+  overflow-y: auto;
+}
+
+.item.editor
+{
+  grid-column: right;
+  grid-row: middle;
+
+  background-color: #1E1E1E;
+}
+
+#editor
+{
+  width: 100%;
+  height: 100%;
+}
+
+.item.test-case
+{
+  grid-column: left;
+  grid-row: bottom;
+
+  display: grid;
+  grid-template-rows: auto min-content;
+
+  padding: 25px;
+
+  background-color: #EBEBEB;
+}
+
+#open-test-case-list
+{
+  grid-row: 1;
+
+  height: 100%;
+  overflow-y: auto;
+}
+
+.item.test-case .controller
+{
+  grid-row: 2;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+
+  margin-top: 10px;
+}
+
+#test-case-list
+{
+  height: 100%;
+  overflow-y: auto;
+}
+
+#test-case-list .test-case
+{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+
+  margin-bottom: 5px;
+  padding: 8px 15px;
+
+  border-radius: 5px;
+  background-color: #ffffff;
+  color: #969696;
+  font-size: 0.8rem;
+}
+
+#test-case-list .test-case:last-child
+{
+  margin-bottom: 0;
+}
+
+#test-case-list .test-case button
+{
+  padding: 5px 20px;
+
+  border: none;
+  border-radius: 6px;
+  color: #ffffff;
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+
+button.run, button.processing
+{
+  background-color: #D3D3D3;
+}
+
+button.run::before
+{
+  display: block;
+  content: 'Run';
+}
+
+button.processing::before
+{
+  display: block;
+  content: 'Processing';
+}
+
+button.success
+{
+  background-color: #00BDF5;
+}
+
+button.success::before
+{
+  display: block;
+  content: 'Success';
+}
+
+button.error
+{
+  background-color: #F5007B;
+}
+
+button.error::before
+{
+  display: block;
+  content: 'Error';
+}
+
+.item.console
+{
+  grid-column: right;
+  grid-row: bottom;
+
+  display: grid;
+  grid-template-rows: auto min-content;
+
+  padding: 25px;
+
+  background-color: #333333;
+}
+
+#output
+{
+  grid-row: 1;
+
+  height: 100%;
+  border: none;
+  resize: none;
+
+  background-color: transparent;
+  color: #ffffff;
+}
+
+.item.console .controller
+{
+  grid-row: 2;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+
+  margin-top: 10px;
+}
+
+#solve-button
+{
+  background-color: #FF9100;
+  font-weight: 700;
+}
+
+.item.test-case .controller button, .item.console .controller button
+{
+  margin-left: 10px;
+  padding: 7px 17px;
+
+  border: none;
+  border-radius: 6px;
+  background-color: #5D5D5D;
+  color: #ffffff;
+  cursor: pointer;
+}
+
+.item.test-case .controller button:first-child, .item.console .controller button:first-child
+{
+  margin-left: 0;
+}
+
+#exit-button
+{
+  padding: 5px;
+  padding-left: 0;
+
+  border: none;
+  background: none;
+
+  font-size: 1.2rem;
+  cursor: pointer;
+}

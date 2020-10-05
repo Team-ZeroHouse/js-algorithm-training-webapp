@@ -2,7 +2,7 @@
 {
   display: grid;
   grid-template-columns: [left] 500px [right] auto;
-  grid-template-rows: [top] 50px [middle] auto [bottom] 250px;
+  grid-template-rows: [top] 70px [middle] auto [bottom] 250px;
   
 
   width: 100vw;
@@ -244,4 +244,16 @@ button.error::before
 .item.test-case .controller button:first-child, .item.console .controller button:first-child
 {
   margin-left: 0;
+}
+
+#exit-button
+{
+  padding: 5px;
+  padding-left: 0;
+
+  border: none;
+  background: none;
+
+  font-size: 1.2rem;
+  cursor: pointer;
 }

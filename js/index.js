@@ -44,7 +44,7 @@ window.loadedProblemPack = undefined;
         const link = `solve.html?pack=${pack.id}&level=${level.id}&problem=${problem.id}`;
         const $li = $(`
           <li class="problem" data-problem-id="${problem.id}">
-            <input type="checkbox" />
+            <input type="checkbox" disabled ${ save.isPassed(pack.id, level.id, problem.id) && 'checked' } />
             <a href="${link}">${problem.name}</a>
           </li>
         `);

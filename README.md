@@ -127,6 +127,29 @@ printOutput(line: string): void
 
 printInput은 테스트 케이스의 입력부에 한줄을 추가하고 printOutput은 테스트 케이스의 출력부에 한줄을 추가한다.
 
+## 진행 사항 저장 기능
+
+사용자가 푼 문제와 사용자가 작성한 코드를 저장하기 위해서 LocalStroage 기능을 사용합니다. **js-algorithm-training-webapp** key를 사용하려 저장과 불러오기를 합니다. 저장되는 데이터는 ProblemPack 객체입니다.
+
+``` typescript
+interface ProblemPack
+{
+  [problemPackId: string]: Level
+}
+
+interface Level
+{
+  [levelId: string]: Problem
+}
+
+interface Problem
+{
+  code: string
+  pass: boolean
+}
+```
+
+
 ## 사용한 라이브러리
 
 - [jQuery v3.5.1](https://jquery.com/)
@@ -136,6 +159,4 @@ printInput은 테스트 케이스의 입력부에 한줄을 추가하고 printOu
 ## 앞으로 진행될 사항들
 
 - 문제 계속 추가
-- 디자인 변화
 - React로 리팩토링
-- 푼 문제 표시 및 코드 저장

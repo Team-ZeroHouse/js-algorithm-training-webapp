@@ -215,18 +215,28 @@ window.loadedProblem = undefined;
     monaco.editor.createModel(libSource, 'javascript', monaco.Uri.parse(libUri));
     
     monaco.editor.setTheme('vs-dark');
+
+    let code = save.getCode(query.pack, query.level, query.problem);
+    if (code.trim().length === 0)
+    {
+      code = [
+        '// readline()으로 한줄을 입력받을 수 있습니다.',
+        '// print()를 통해서 한줄을 출력할 수 있습니다.',
+        ''
+      ].join('\n');
+    }
     
     editor = monaco.editor.create(
       document.getElementById('editor'),
       {
         language: 'javascript',
-        value: [
-          '// readline()으로 한줄을 입력받을 수 있습니다.',
-          '// print()를 통해서 한줄을 출력할 수 있습니다.',
-          ''
-        ].join('\n')
+        value: code
       }
     )
+    editor.onDidChangeModelContent(function()
+    {
+      save.updateCode(query.pack, query.level, query.problem, editor.getValue());
+    });
   });
 
   $('#show-solution-button').click(function()
@@ -271,6 +281,7 @@ window.loadedProblem = undefined;
     }
 
     window.removeEventListener('beforeunload', preventExit);
+    save.pass(query.pack, query.level, query.problem);
     $('#output').val('합격');
   });
 

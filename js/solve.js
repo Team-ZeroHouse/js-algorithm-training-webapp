@@ -222,3 +222,22 @@ window.loadedProblem = undefined;
   });
   
 })();
+
+/*
+
+enum  TestError
+{
+  RunTimeError = 'RUN_TIME_ERROR',
+  OutputMismatch = 'MISMATCH'
+}
+
+interface TestResult
+{
+  testCase: TestCase
+  success: boolean
+  output: string
+  errorType?: TestError
+  error?: string
+}
+
+*/

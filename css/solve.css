@@ -110,6 +110,83 @@
   margin-top: 10px;
 }
 
+#test-case-list
+{
+  height: 100%;
+  overflow-y: auto;
+}
+
+#test-case-list .test-case
+{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+
+  margin-bottom: 5px;
+  padding: 8px 15px;
+
+  border-radius: 5px;
+  background-color: #ffffff;
+  color: #969696;
+  font-size: 0.8rem;
+}
+
+#test-case-list .test-case:last-child
+{
+  margin-bottom: 0;
+}
+
+#test-case-list .test-case button
+{
+  padding: 5px 20px;
+
+  border: none;
+  border-radius: 6px;
+  color: #ffffff;
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+
+button.run, button.processing
+{
+  background-color: #D3D3D3;
+}
+
+button.run::before
+{
+  display: block;
+  content: 'Run';
+}
+
+button.processing::before
+{
+  display: block;
+  content: 'Processing';
+}
+
+button.success
+{
+  background-color: #00BDF5;
+}
+
+button.success::before
+{
+  display: block;
+  content: 'Success';
+}
+
+button.error
+{
+  background-color: #F5007B;
+}
+
+button.error::before
+{
+  display: block;
+  content: 'Error';
+}
+
 .item.console
 {
   grid-column: right;

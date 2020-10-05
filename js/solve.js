@@ -19,9 +19,9 @@ window.loadedProblem = undefined;
 
     $('#title').text(problem.title??'');
     $('#content-viewer').toastuiEditor('setMarkdown', problem.content??'');
-    problem.openTestCases.forEach(openTestCase =>
+    problem.openTestCases.forEach((openTestCase, i) =>
     {
-      addTextCase(openTestCase);
+      addTextCase(openTestCase, i);
     });
     
     if (problem.randomTestCase && problem.randomTestCase.trim().length > 0)
@@ -55,22 +55,15 @@ window.loadedProblem = undefined;
     }
   };
 
-  function addTextCase(openTestCase)
+  function addTextCase(openTestCase, index)
   {
     const $li = $(`
-    <li>
-      <textarea class="input" readonly style="width: 300px; height: 100px;">${openTestCase.input}</textarea>
-      <textarea class="output" readonly style="width: 300px; height: 100px;">${openTestCase.output}</textarea>
-      <button type="button">Run</button>
-      <textarea class="result" readonly style="width: 300px; height: 100px;"></textarea>
+    <li class="test-case">
+      <span>Test Case #${index}</span>
+      <button class="run" type="button"></button>
     </li>
     `);
-    $li.find('button').click(function()
-    {
-      const result = test(openTestCase);
-      $li.find('.result').val(result);
-    });
-    $('#open-test-case-list').append($li);
+    $('#test-case-list').append($li);
   }
 
   function test(testCase)
